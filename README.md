@@ -2,7 +2,7 @@
 
 This project applies machine learning to predict the presence of cardiovascular disease using real-world clinical and lifestyle data. It compares Logistic Regression and Random Forest models.
 
-Dataset
+ Dataset
 - Source: [Kaggle - Sulianova](https://www.kaggle.com/datasets/sulianova/cardiovascular-disease-dataset)
 - Records: 70,000
 - Features: Age, BP, cholesterol, glucose, lifestyle habits
@@ -14,9 +14,9 @@ Models Applied
 
 Results Summary
 
-                 Model  Accuracy
-0  Logistic Regression  0.727028
-1        Random Forest  0.719965
+Model                Accuracy
+Logistic Regression  0.727028
+Random Forest        0.719965
 
 Project Presentation
 YouTube video link: 
