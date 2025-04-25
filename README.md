@@ -15,6 +15,7 @@ Models Applied
 Results Summary
 
 Model                Accuracy
+
 Logistic Regression  0.727028
 Random Forest        0.719965
 
