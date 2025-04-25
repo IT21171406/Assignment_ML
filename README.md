@@ -12,12 +12,6 @@ Models Applied
 - Logistic Regression
 - Random Forest Classifier
 
-Results Summary
-
-Model  Accuracy
-0  Logistic Regression  0.727028
-1        Random Forest  0.719965
-
 Project Presentation
 YouTube video link: 
 Author
