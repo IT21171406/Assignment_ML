@@ -1,0 +1,120 @@
+Dataset link    : https://www.kaggle.com/datasets/sulianova/cardiovascular-disease-dataset
+GitHub repo     : https://github.com/IT21171406/Assignment_ML.git
+YouTube presentation link: https://youtu.be/M_RXO1uTLu4
+
+
+
+
+Source Code:
+import pandas as pd
+import numpy as np
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+from sklearn.model_selection import train_test_split
+from sklearn.preprocessing import StandardScaler
+from sklearn.linear_model import LogisticRegression
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.metrics import accuracy_score, classification_report, confusion_matrix
+# Load the Dataset
+df = pd.read_csv('cardio_train.csv', sep=';')
+print(df.columns)
+
+# Check for missing values
+print("Missing values per column:")
+print(df.isnull().sum())
+
+df['age'] = (df['age'] / 365).round().astype(int)
+#Check Target Distribution
+sns.countplot(x='cardio', data=df)
+plt.title('Target Class Distribution')
+plt.show()  
+
+df = df[(df['ap_hi'] >= 80) & (df['ap_hi'] <= 200)]
+df = df[(df['ap_lo'] >= 50) & (df['ap_lo'] <= 150)]
+
+X = df.drop(columns=['cardio'])
+y = df['cardio']
+#Feature Scaling
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+# Split into Train and Test sets
+X_train, X_test, y_train, y_test = train_test_split(X_scaled, y, test_size=0.2, random_state=42, stratify=y)
+
+
+# Model 1: Logistic Regression
+lr = LogisticRegression(max_iter=1000)
+lr.fit(X_train, y_train)
+y_pred_lr = lr.predict(X_test)
+#Model 2: Random Forest
+rf = RandomForestClassifier(n_estimators=100, random_state=42)
+rf.fit(X_train, y_train)
+y_pred_rf = rf.predict(X_test)
+
+def evaluate_model(name, y_true, y_pred):
+    print(f"\n{name} Evaluation")
+    print("Accuracy:", accuracy_score(y_true, y_pred))
+    print(classification_report(y_true, y_pred))
+    sns.heatmap(confusion_matrix(y_true, y_pred), annot=True, fmt='d', cmap='Blues')
+    plt.title(f"{name} - Confusion Matrix")
+    plt.xlabel("Predicted")
+    plt.ylabel("Actual")
+    plt.show()
+
+evaluate_model("Logistic Regression", y_test, y_pred_lr)
+evaluate_model("Random Forest", y_test, y_pred_rf)
+# Compare Results
+results = pd.DataFrame({
+    'Model': ['Logistic Regression', 'Random Forest'],
+    'Accuracy': [accuracy_score(y_test, y_pred_lr), accuracy_score(y_test, y_pred_rf)]
+})
+
+sns.barplot(x='Model', y='Accuracy', data=results)
+plt.ylim(0.7, 1)
+plt.title('Model Accuracy Comparison')
+plt.show()
+
+print("\nFinal Accuracy Table:")
+print(results)
+
+
+YouTube Video Script :
+
+
+In this project, I built a machine learning system to predict if a person has heart disease or not.
+I used two models: Logistic Regression and Random Forest.
+Let’s walk through how I did it.”
+
+“First, I loaded a real-world dataset from Kaggle. It has over 70,000 patients’ health data.
+Each patient’s information includes their age, gender, height, weight, blood pressure, cholesterol, glucose levels, and habits like smoking and drinking alcohol.
+I checked for missing values — there were none.
+I also changed the ‘age’ column from days to years to make it more understandable.”
+
+“I then used a simple bar chart called a count plot to see how many patients had heart disease and how many did not.
+This helped me check if the dataset was balanced before training the models.”
+
+“After that, I cleaned the blood pressure values.
+If a patient’s blood pressure was unrealistically low or high, I removed those rows.
+For systolic blood pressure, I kept values between 80 and 200.
+For diastolic blood pressure, I kept values between 50 and 150.
+This helps remove wrong data entries.”
+
+“Next, I scaled all the numeric columns so the models could learn better.
+I used StandardScaler to make sure all the numbers were in a similar range.
+Then, I split the data: 80% for training, and 20% for testing.
+I used stratification to keep the balance between healthy and unhealthy patients.”
+
+“I built two models:
+The first one is Logistic Regression. It’s a simple model that tries to draw a line between healthy and unhealthy people.
+The second one is Random Forest, which builds many small decision trees and then combines them for better prediction.
+I trained both models using the training data.”
+
+“I tested both models and measured their performance.
+Logistic Regression achieved 72.7% accuracy.
+Random Forest achieved 71.9% accuracy.
+I also created confusion matrices to show how many correct and incorrect predictions each model made.”
+“I learned that sometimes simple models like Logistic Regression can perform well if the data is clean and prepared carefully.
+For future work
+
+
+ 
